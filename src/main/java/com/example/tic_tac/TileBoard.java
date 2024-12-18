@@ -177,6 +177,18 @@ public class TileBoard {
         }
     }
 
+        public void playRandom() {
+            if (!isEndGame) {
+                int randomRow = (int)(Math.random() * 3);
+                int randomCol = (int)(Math.random() * 3);
+                if (tiles[randomRow][randomCol].getTileLabelText().isEmpty()) {
+                    tiles[randomRow][randomCol].setTileLabelText("O");
+                } else {
+                    playRandom();
+                }
+            }
+        }
+
     private class Tile {
 
         private StackPane tilePane;
@@ -204,6 +216,9 @@ public class TileBoard {
                     tileLabel.setText(getPlayerChar());
                     checkForWinner();
                     changePlayerTurn();
+                    playRandom();
+                    checkForWinner();
+                    changePlayerTurn();
                 }
             });
         }
@@ -212,8 +227,6 @@ public class TileBoard {
             if (!isEndGame) {
                 if (getPlayerTurn().equals("Player")) {
                     playerChar = 'X';
-                } else {
-                    playerChar = 'O';
                 }
             }
             return String.valueOf(playerChar);

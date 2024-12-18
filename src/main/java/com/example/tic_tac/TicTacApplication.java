@@ -35,7 +35,7 @@ public class TicTacApplication extends Application {
 
     private void initInfoCenter(BorderPane root) {
         infoCenter = new InfoCenter();
-        infoCenter.setStartBtnAction(startGame());
+        infoCenter.setBtnAction(startGame());
         root.getChildren().add(infoCenter.getPane());
     }
 
@@ -43,10 +43,10 @@ public class TicTacApplication extends Application {
         return new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e) {
+                tileBoard.startNewGAme();
                 tileBoard.addTiles();
                 infoCenter.hideBtn();
                 infoCenter.updateMsg("Player's Turn");
-                tileBoard.startNewGAme();
             }
         };
     }

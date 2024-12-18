@@ -26,37 +26,31 @@ public class InfoCenter {
         massge.setMinSize(UiConstant.APP_WIDTH, UiConstant.INFO_HEIGHT);
         massge.setFont(Font.font(24));
         massge.setAlignment(Pos.CENTER);
-        massge.setTranslateY(-20);
+        massge.setTranslateY(-10);
         pane.getChildren().add(massge);
 
-        startBtn = new Button("Start New Game");
         levelOneBtn = new Button("easy");
         levelTwoBtn = new Button("medium");
         levelThreeBtn = new Button("hard");
 
         levelOneBtn.setMinSize(100, 30);
         levelOneBtn.setFont(Font.font(10));
-        levelOneBtn.setTranslateY(20);
+        levelOneBtn.setTranslateY(40);
         levelOneBtn.setTranslateX(-150);
 
         levelTwoBtn.setMinSize(100, 30);
         levelTwoBtn.setFont(Font.font(10));
-        levelTwoBtn.setTranslateY(20);
+        levelTwoBtn.setTranslateY(40);
         levelTwoBtn.setTranslateX(0);
 
         levelThreeBtn.setMinSize(100, 30);
         levelThreeBtn.setFont(Font.font(10));
-        levelThreeBtn.setTranslateY(20);
+        levelThreeBtn.setTranslateY(40);
         levelThreeBtn.setTranslateX(150);
-
-        startBtn.setMinSize(100, 30);
-        startBtn.setFont(Font.font(10));
-        startBtn.setTranslateY(60);
 
         pane.getChildren().add(levelOneBtn);
         pane.getChildren().add(levelTwoBtn);
         pane.getChildren().add(levelThreeBtn);
-        pane.getChildren().add(startBtn);
     }
     public StackPane getPane() {
         return pane;
@@ -67,21 +61,19 @@ public class InfoCenter {
     }
 
     public void showBtn() {
-        startBtn.setVisible(true);
         levelOneBtn.setVisible(true);
         levelTwoBtn.setVisible(true);
         levelThreeBtn.setVisible(true);
+
     }
 
     public void hideBtn() {
-        startBtn.setVisible(false);
         levelOneBtn.setVisible(false);
         levelTwoBtn.setVisible(false);
         levelThreeBtn.setVisible(false);
     }
 
-    public void setStartBtnAction(EventHandler<ActionEvent> onAction) {
-        startBtn.setOnAction(onAction);
+    public void setBtnAction(EventHandler<ActionEvent> onAction) {
         levelOneBtn.setOnAction(onAction);
         levelTwoBtn.setOnAction(onAction);
         levelThreeBtn.setOnAction(onAction);
