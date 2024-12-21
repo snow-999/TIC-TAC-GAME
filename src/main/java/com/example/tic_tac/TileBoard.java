@@ -177,6 +177,108 @@ public class TileBoard {
         }
     }
 
+        public boolean cheackingRow() {
+            for (int i = 0; i < 3; i++) {
+                if ((tiles[i][0].getTileLabelText().equals("X") && tiles[i][1].getTileLabelText().equals("X") && tiles[i][2].getTileLabelText().isEmpty()) ||
+                        (tiles[i][0].getTileLabelText().equals("X") && tiles[i][2].getTileLabelText().equals("X") && tiles[i][1].getTileLabelText().isEmpty()) ||
+                        (tiles[i][1].getTileLabelText().equals("X") && tiles[i][2].getTileLabelText().equals("X") && tiles[i][0].getTileLabelText().isEmpty())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public boolean cheakingCol() {
+            for (int i = 0; i < 3; i++) {
+                if (tiles[0][i].getTileLabelText().equals("X") && tiles[2][i].getTileLabelText().equals("X") && tiles[1][i].getTileLabelText().isEmpty() ||
+                        tiles[0][i].getTileLabelText().equals("X") && tiles[1][i].getTileLabelText().equals("X") && tiles[2][i].getTileLabelText().isEmpty() ||
+                        tiles[1][i].getTileLabelText().equals("X") && tiles[2][i].getTileLabelText().equals("X") && tiles[0][i].getTileLabelText().isEmpty()) {
+                    System.out.println("WORKED");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public boolean cheackingLefttToRight() {
+            return (tiles[0][0].getTileLabelText().equals("X") && tiles[1][1].getTileLabelText().equals("X")) ||
+                   (tiles[2][2].getTileLabelText().equals("X") && tiles[1][1].getTileLabelText().equals("X"));
+        }
+
+        public boolean cheackingRightToLeft() {
+            return (tiles[0][2].getTileLabelText().equals("X") && tiles[1][1].getTileLabelText().equals("X")) ||
+                    (tiles[2][0].getTileLabelText().equals("X") && tiles[1][1].getTileLabelText().equals("X"));
+        }
+
+        public void defanse() {
+            if (cheackingRow()) {
+                for (int i = 0; i < 3; i++) {
+                    if (tiles[i][0].getTileLabelText().equals("X") && tiles[i][1].getTileLabelText().equals("X") && tiles[i][2].getTileLabelText().isEmpty()) {
+                        tiles[i][2].setTileLabelText("O");
+                        return;
+                    } else if (tiles[i][0].getTileLabelText().equals("X") && tiles[i][2].getTileLabelText().equals("X") && tiles[i][1].getTileLabelText().isEmpty()) {
+                        tiles[i][1].setTileLabelText("O");
+                        return;
+                    } else if (tiles[i][1].getTileLabelText().equals("X") && tiles[i][2].getTileLabelText().equals("X") && tiles[i][0].getTileLabelText().isEmpty()) {
+                        tiles[i][0].setTileLabelText("O");
+                        return;
+                    }
+                }
+            } else if (cheakingCol()) {
+                for (int i = 0; i < 3; i++) {
+                    if (tiles[0][i].getTileLabelText().equals("X") && tiles[1][i].getTileLabelText().equals("X") && tiles[2][i].getTileLabelText().isEmpty()) {
+                        tiles[2][i].setTileLabelText("O");
+                        System.out.println("my Turn To defense");
+                        break;
+                    } else if (tiles[0][i].getTileLabelText().equals("X") && tiles[2][i].getTileLabelText().equals("X") && tiles[1][i].getTileLabelText().isEmpty()) {
+                        tiles[1][i].setTileLabelText("O");
+                        System.out.println("my Turn To defense");
+                        break;
+                    } else if (tiles[1][i].getTileLabelText().equals("X") && tiles[2][i].getTileLabelText().equals("X") && tiles[0][i].getTileLabelText().isEmpty()) {
+                        tiles[0][i].setTileLabelText("O");
+                        System.out.println("my Turn To defense");
+                        break;
+                    }
+                }
+            } else if (cheackingLefttToRight()) {
+                if (tiles[2][2].getTileLabelText().isEmpty()) {
+                    tiles[2][2].setTileLabelText("O");
+                } else {
+                    tiles[0][0].setTileLabelText("O");
+                }
+            } else if (cheackingRightToLeft()) {
+                if (tiles[0][2].getTileLabelText().isEmpty()) {
+                    tiles[0][2].setTileLabelText("O");
+                } else {
+                    tiles[2][0].setTileLabelText("O");
+                }
+            }
+        }
+
+        public void playHard() {
+            if (!isEndGame) {
+                if (cheakingCol() || cheackingRow() || cheackingLefttToRight() || cheackingRightToLeft()) {
+                    defanse();
+                } else if (tiles[1][1].getTileLabelText().isEmpty()) {
+                    tiles[1][1].setTileLabelText("O");
+                } else if (tiles[0][2].getTileLabelText().isEmpty()) {
+                    tiles[0][2].setTileLabelText("O");
+                } else if (tiles[2][0].getTileLabelText().isEmpty()) {
+                    tiles[2][0].setTileLabelText("O");
+                } else if (tiles[0][0].getTileLabelText().equals("O") && tiles[0][2].getTileLabelText().equals("O") && tiles[0][1].getTileLabelText().isEmpty()) {
+                    tiles[0][1].setTileLabelText("O");
+                } else {
+                    int randomRow = (int)(Math.random() * 3);
+                    int randomCol = (int)(Math.random() * 3);
+                    if (tiles[randomRow][randomCol].getTileLabelText().isEmpty()) {
+                        tiles[randomRow][randomCol].setTileLabelText("O");
+                    } else {
+                        playHard();
+                    }
+                }
+            }
+        }
+
         public void playGood() {
             if (!isEndGame) {
                 int randomRow = (int)(Math.random() * 3);
@@ -192,7 +294,7 @@ public class TileBoard {
                 if (tiles[randomRow][randomCol].getTileLabelText().isEmpty()) {
                     tiles[randomRow][randomCol].setTileLabelText("O");
                 } else {
-                    playRandom();
+                    playGood();
                 }
 
             }
@@ -237,7 +339,7 @@ public class TileBoard {
                     tileLabel.setText(getPlayerChar());
                     checkForWinner();
                     changePlayerTurn();
-                    playGood();
+                    playHard();
                     checkForWinner();
                     changePlayerTurn();
                 }
